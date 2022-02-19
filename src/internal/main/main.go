@@ -6,11 +6,14 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
+	"strconv"
 
 	"github.com/jinzhu/configor"
+	"github.com/sirupsen/logrus"
 
 	"mongo-sync/internal/config"
+	"mongo-sync/internal/sync_factory"
 )
 
 var applicationConfig config.Config
@@ -19,5 +22,14 @@ func main() {
 	if err := configor.Load(&applicationConfig, "etc/config.yml"); err != nil {
 		panic("load mongo config panic err:" + err.Error())
 	}
-	fmt.Print(applicationConfig)
+	logrus.Infof("config %+v", applicationConfig)
+
+	err := http.ListenAndServe(":"+strconv.Itoa(applicationConfig.Port), nil)
+
+	if err != nil {
+		logrus.Infof("ListenAndServe: %s", err.Error())
+		panic("ListenAndServe: " + err.Error())
+	}
+
+	sync_factory.InitFactory(&applicationConfig).DoSync()
 }

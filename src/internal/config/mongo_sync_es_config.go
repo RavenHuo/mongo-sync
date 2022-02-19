@@ -6,8 +6,14 @@
 package config
 
 type MongoSyncEsConfig struct {
-	EsUrl      string
-	EsIndex    string
-	DbCol      string
+	// ES url
+	EsUrl string
+	// mongo 文档同步到es的索引
+	EsIndex string
+	// mongo文档名称
+	DbCol string
+	// 是否需要包装bsonId
 	WrapBsonId bool
+	// OpLogRs的地址
+	OpLogRsUrl string
 }

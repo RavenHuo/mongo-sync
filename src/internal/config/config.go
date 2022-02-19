@@ -6,6 +6,7 @@
 package config
 
 type Config struct {
-	Mongo        MongoConfig
-	EsSyncConfig []MongoSyncEsConfig
+	Port               int
+	CheckOutPointDbUrl string
+	EsSyncConfig       []MongoSyncEsConfig
 }
