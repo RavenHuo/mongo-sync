@@ -1,3 +1,11 @@
-mongo:
-  password: 123
-  name: 123
+port: 35102
+check_out_point_db_url: mongodb://localhost:27017
+full_sync_goroutine_count: 1
+sync_configs:
+  - db_col: user
+    db_name: User
+    op_log_rs_url: mongodb://localhost:27017
+    option:
+      elastic_search:
+        url: http://localhost:9200
+        index: user

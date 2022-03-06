@@ -13,23 +13,22 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"mongo-sync/internal/config"
-	"mongo-sync/internal/sync_factory"
+	"mongo-sync/internal/sync"
 )
 
-var applicationConfig config.Config
-
 func main() {
-	if err := configor.Load(&applicationConfig, "etc/config.yml"); err != nil {
+	if err := configor.Load(&config.ApplicationConfig, "etc/config.yml"); err != nil {
 		panic("load mongo config panic err:" + err.Error())
 	}
-	logrus.Infof("config %+v", applicationConfig)
+	logrus.Infof("config %+v", config.ApplicationConfig)
 
-	err := http.ListenAndServe(":"+strconv.Itoa(applicationConfig.Port), nil)
+	sync.InitWrapper(&config.ApplicationConfig).Wrapper()
+
+	err := http.ListenAndServe("localhost:"+strconv.Itoa(config.ApplicationConfig.Port), nil)
 
 	if err != nil {
 		logrus.Infof("ListenAndServe: %s", err.Error())
 		panic("ListenAndServe: " + err.Error())
 	}
 
-	sync_factory.InitFactory(&applicationConfig).DoSync()
 }

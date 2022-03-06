@@ -3,6 +3,8 @@ package model
 import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+
+	"mongo-sync/internal/constant"
 )
 
 var OpCodes = [...]string{"c", "i", "u", "d"}
@@ -21,9 +23,9 @@ type MongoDoc struct {
 
 type OpLogRsModel struct {
 	// 操作时间戳
-	Timestamp    primitive.DateTime `bson:"ts"`
-	HistoryID    float64            `bson:"h"`
-	MongoVersion int                `bson:"v"`
+	Timestamp    primitive.Timestamp `bson:"ts"`
+	HistoryID    float64             `bson:"h"`
+	MongoVersion int                 `bson:"v"`
 	// 操作类型 i,d,u
 	Operation string `bson:"op"`
 	// 库名
@@ -34,9 +36,9 @@ type OpLogRsModel struct {
 	Update bson.M `bson:"o2"`
 }
 
-func (c OpLogRsModel) GetInfo() ModelInfo {
-	return ModelInfo{
-		DBName:  OpLogRsDbName,
-		ColName: OpLogRsColName,
+func (c OpLogRsModel) GetInfo() MongoInfo {
+	return MongoInfo{
+		DBName:  constant.OpLogRsDbName,
+		ColName: constant.OpLogRsColName,
 	}
 }
