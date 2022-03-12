@@ -34,7 +34,7 @@ func InitWrapper(config *config.Config) *SyncMongoWrapper {
 }
 
 func (s *SyncMongoWrapper) Wrapper() {
-	for _, wrapper := range s.syncMongoFactories {
-		go wrapper.sync()
+	for _, factory := range s.syncMongoFactories {
+		go factory.sync()
 	}
 }
