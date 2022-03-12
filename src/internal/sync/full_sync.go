@@ -19,14 +19,11 @@ func (s *SyncMongoFactory) FullSyncDataConsumer(fullSyncMongoDocChan chan map[st
 	logrus.Infof("sync full data goroutine number: %d start", goRoNum)
 
 	for {
-		select {
-		case mongoDoc, ok := <-fullSyncMongoDocChan:
-			if ok {
-				s.consumerFactory.FullDataConsumer(mongoDoc)
-			} else {
-				return
-			}
+		if mongoDoc, ok := <-fullSyncMongoDocChan; ok {
+			s.consumerFactory.FullDataConsumer(mongoDoc)
+		} else {
+			break
 		}
-
 	}
+
 }
